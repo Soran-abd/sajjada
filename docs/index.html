@@ -102,12 +102,6 @@
     border: 1px solid rgba(255,220,160,.28);
     box-shadow: 0 50px 100px rgba(0,0,0,.75), 0 0 90px rgba(227,162,59,.22); }
   .screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .stage .tag { position: absolute; z-index: 5; display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 14px;
-    font-weight: 800; font-size: 14px; background: rgba(20,14,10,.86); border: 1px solid var(--line); box-shadow: 0 16px 34px rgba(0,0,0,.5);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
-  .stage .tag.show { opacity: 1; transform: none; }
-  .stage .t1 { bottom: -18px; right: 6%; }
-  .stage .t2 { top: -16px; left: 6%; }
   .tick { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 900;
     color: var(--ink); background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); box-shadow: 0 0 12px rgba(255,197,96,.55); }
 
@@ -206,7 +200,6 @@
     .logo .kufi { font-size: 28px; }
     .download { font-size: 19px; padding: 14px 30px; }
     .track img { width: 170px; }
-    .stage .tag { font-size: 12px; padding: 7px 12px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -261,8 +254,6 @@
         <div class="screen">
           <video src="img/fold.mp4" poster="img/fold-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="رفع زاوية السجادة لرؤية الأيقونات المخفية تحتها"></video>
         </div>
-        <div class="tag t1" id="tag1"><span class="tick">✓</span>سطح مكتب مرتّب</div>
-        <div class="tag t2" id="tag2"><span class="tick">✓</span>ملفاتك في مكانها</div>
       </div>
     </div>
   </div>
@@ -457,10 +448,6 @@
   mq.appendChild(row(rugs.slice(0, half)));
   mq.appendChild(row(rugs.slice(half), true));
 
-  // the two labels on the video appear one after the other
-  const tags = [document.getElementById("tag1"), document.getElementById("tag2")];
-  setTimeout(() => tags[0].classList.add("show"), 1400);
-  setTimeout(() => tags[1].classList.add("show"), 1900);
 </script>
 </body>
 </html>
