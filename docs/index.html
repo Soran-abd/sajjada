@@ -3,219 +3,458 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>سجادة · رتّب سطح المكتب بدون ما تمسح شي</title>
-<meta name="description" content="سجادة: برنامج مجاني لنظام Windows يرتّب سطح المكتب ويخفي أيقوناتك تحت سجادة، بدون ما ينقل أو يمسح أي ملف.">
+<title>سجادة · نظّم سطح مكتبك دون حذف أي ملف</title>
+<meta name="description" content="سجادة برنامج مجاني لنظام Windows يُخفي أيقونات سطح المكتب تحت سجادة أنيقة، دون نقل أي ملف أو حذفه أو تعديله.">
 <meta property="og:title" content="سجادة · لنظام Windows">
-<meta property="og:description" content="رتّب سطح المكتب واخفِ ملفاتك عن العيون، بدون ما تمسح أي شي. مجاني.">
+<meta property="og:description" content="نظّم سطح مكتبك وأخفِ ملفاتك عن الأعين، دون حذف أي ملف. برنامج مجاني.">
 <meta property="og:image" content="https://soran-abd.github.io/sajjada/img/og.jpg">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#0d0907">
 <link rel="icon" href="img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --night: #0d0907;
-    --panel: rgba(255, 255, 255, .045);
-    --line: rgba(255, 197, 96, .32);
+    --night: #0c0806;
+    --night-2: #15100c;
+    --panel: rgba(255, 255, 255, .04);
+    --line: rgba(255, 197, 96, .26);
     --cream: #f6eee2;
-    --soft: #cdbfa9;
+    --soft: #c9bba5;
     --gold: #ffc560;
     --gold-deep: #d99a2b;
     --gold-pale: #ffe3a3;
     --ink: #2a1a08;
+    --ease: cubic-bezier(.22, 1, .36, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
   body {
     font-family: Cairo, "Segoe UI", Tahoma, sans-serif;
     color: var(--cream);
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(217, 154, 43, .22), transparent 70%),
-      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(140, 60, 30, .18), transparent 70%),
-      var(--night);
-    line-height: 1.7;
+    background: var(--night);
+    line-height: 1.8;
     overflow-x: hidden;
   }
-  a { color: inherit; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
   .gold { color: var(--gold); }
+  .en { font-family: "Segoe UI", Tahoma, sans-serif; direction: ltr; unicode-bidi: isolate; }
   .kufi {
     font-family: "Reem Kufi", Cairo, sans-serif;
     background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep) 60%, #a8701c);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .en { font-family: "Segoe UI", Tahoma, sans-serif; direction: ltr; unicode-bidi: isolate; }
 
-  /* hero */
-  header { padding: 56px 0 30px; text-align: center; }
-  .brand { display: inline-flex; align-items: center; gap: 14px; }
-  .brand img { width: 64px; height: 64px; border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
-  .brand .kufi { font-size: 64px; line-height: 1.1; filter: drop-shadow(0 4px 20px rgba(227,162,59,.35)); }
-  .for-win { display: inline-flex; align-items: center; gap: 8px; color: var(--soft); font-weight: 800; margin-top: 6px; }
-  .for-win svg { width: 18px; height: 18px; }
-  h1 { font-size: clamp(28px, 5.4vw, 48px); font-weight: 900; line-height: 1.35; margin: 26px auto 12px; max-width: 760px; }
-  .lead { color: var(--soft); font-size: clamp(16px, 2.4vw, 20px); max-width: 640px; margin: 0 auto; }
+  /* ambient light that drifts behind everything */
+  .glow { position: fixed; inset: -20vmax; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(40vmax 30vmax at 75% 10%, rgba(217,154,43,.20), transparent 70%),
+      radial-gradient(35vmax 30vmax at 15% 45%, rgba(150,60,30,.16), transparent 70%),
+      radial-gradient(40vmax 30vmax at 60% 95%, rgba(40,90,120,.12), transparent 70%);
+    animation: drift 24s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: translate3d(-3vmax, 2vmax, 0) rotate(4deg); } }
 
-  .download {
-    display: inline-flex; align-items: center; gap: 14px;
-    margin-top: 30px; padding: 16px 42px; border-radius: 999px;
-    font-size: 24px; font-weight: 900; text-decoration: none; color: var(--ink);
+  /* ---------- top bar ---------- */
+  .bar { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: rgba(12,8,6,.62); border-bottom: 1px solid rgba(255,255,255,.06); }
+  .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo img { width: 38px; height: 38px; border-radius: 10px; }
+  .logo .kufi { font-size: 34px; line-height: 1; }
+  nav { display: flex; gap: 26px; font-weight: 700; font-size: 15px; color: var(--soft); }
+  nav a { transition: color .2s; }
+  nav a:hover { color: var(--gold); }
+  .btn-sm { padding: 8px 20px; border-radius: 999px; font-weight: 800; font-size: 15px; color: var(--ink);
+    background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); white-space: nowrap; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 70px 0 40px; }
+  .hero .wrap { display: grid; grid-template-columns: 1fr 1.08fr; gap: 54px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 999px; font-size: 14px; font-weight: 800;
+    color: var(--gold-pale); background: rgba(255,197,96,.1); border: 1px solid var(--line); }
+  .eyebrow svg { width: 16px; height: 16px; }
+  h1 { font-size: clamp(34px, 5vw, 58px); font-weight: 900; line-height: 1.3; margin: 20px 0 16px; letter-spacing: -.5px; }
+  h1 .shine { background: linear-gradient(100deg, var(--gold-deep) 20%, var(--gold-pale) 40%, var(--gold) 50%, var(--gold-deep) 70%);
+    background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 5s linear infinite; }
+  @keyframes shine { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+  .lead { font-size: clamp(17px, 2vw, 20px); color: var(--soft); max-width: 540px; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 32px; }
+  .download { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 12px; padding: 16px 38px; border-radius: 999px;
+    font-size: 21px; font-weight: 900; color: var(--ink);
     background: linear-gradient(180deg, var(--gold-pale), var(--gold) 45%, var(--gold-deep));
-    box-shadow: 0 14px 40px rgba(217,154,43,.45), inset 0 1px 0 rgba(255,255,255,.6);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .download:hover { transform: translateY(-2px); box-shadow: 0 18px 50px rgba(217,154,43,.6), inset 0 1px 0 rgba(255,255,255,.6); }
-  .download svg { width: 26px; height: 26px; }
-  .meta { margin-top: 14px; color: var(--soft); font-size: 15px; display: flex; gap: 8px 18px; justify-content: center; flex-wrap: wrap; }
-  .meta span::before { content: "•"; color: var(--gold); margin-left: 8px; }
-  .meta span:first-child::before { content: none; }
+    box-shadow: 0 16px 44px rgba(217,154,43,.42), inset 0 1px 0 rgba(255,255,255,.65);
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+  .download::after { content: ""; position: absolute; inset: 0; transform: translateX(120%);
+    background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%); animation: sweep 3.6s ease-in-out infinite 1.2s; }
+  @keyframes sweep { 0% { transform: translateX(120%); } 45%, 100% { transform: translateX(-120%); } }
+  .download:hover { transform: translateY(-3px); box-shadow: 0 22px 56px rgba(217,154,43,.58), inset 0 1px 0 rgba(255,255,255,.65); }
+  .download svg { width: 24px; height: 24px; }
+  .link { font-weight: 800; color: var(--soft); border-bottom: 1px solid rgba(255,255,255,.2); transition: color .2s, border-color .2s; }
+  .link:hover { color: var(--gold); border-color: var(--gold); }
+  .meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; color: var(--soft); }
+  .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
 
-  .shot { margin: 42px auto 0; max-width: 960px; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 90px rgba(0,0,0,.7), 0 0 80px rgba(227,162,59,.15); }
-  .shot img { display: block; width: 100%; height: auto; }
+  /* the animated desktop */
+  .stage { position: relative; perspective: 1600px; }
+  .screen { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden;
+    background: radial-gradient(120% 90% at 70% 20%, #6b7a96, #4b5670 55%, #3a4257);
+    border: 1px solid rgba(255,220,160,.28);
+    box-shadow: 0 50px 100px rgba(0,0,0,.75), 0 0 90px rgba(227,162,59,.22); }
+  .screen::before { content: ""; position: absolute; inset: 0; background:
+      radial-gradient(60% 50% at 30% 30%, rgba(255,255,255,.10), transparent 70%); pointer-events: none; }
+  .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 7.5%; background: rgba(28,30,38,.82);
+    display: flex; justify-content: center; align-items: center; gap: 1.6%; }
+  .taskbar i { width: 3.2%; aspect-ratio: 1; border-radius: 22%; background: rgba(255,255,255,.18); }
+  .taskbar i:first-child { background: linear-gradient(135deg, #4cc2ff 0 46%, transparent 46% 54%, #4cc2ff 54%); }
+  .icons { position: absolute; inset: 0; }
+  .ic { position: absolute; width: 7.2%; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .ic b { width: 70%; aspect-ratio: 1; border-radius: 12%; position: relative; box-shadow: 0 3px 8px rgba(0,0,0,.35); }
+  .ic s { width: 92%; height: 5px; border-radius: 3px; background: rgba(255,255,255,.55); text-decoration: none; }
+  .ic.folder b { background: linear-gradient(180deg, #ffd66b, #f0b429); border-radius: 8% 8% 12% 12%; }
+  .ic.folder b::before { content: ""; position: absolute; top: -10%; right: 8%; width: 45%; height: 18%; background: #f0b429; border-radius: 3px 3px 0 0; }
+  .ic.doc b { background: linear-gradient(180deg, #fff, #e8eef8); }
+  .ic.doc b::after { content: ""; position: absolute; inset: 22% 18% auto 18%; height: 34%; background: repeating-linear-gradient(180deg, #2b6fd6 0 2px, transparent 2px 6px); }
+  .ic.xls b { background: linear-gradient(180deg, #2fa865, #1e7e4a); }
+  .ic.pdf b { background: linear-gradient(180deg, #ff6b5b, #d63b2f); }
+  .ic.img b { background: linear-gradient(160deg, #8fd3ff, #4a8fd9 60%, #2f6a3a 60%); }
+  .rug { position: absolute; left: 21%; top: 15%; width: 58%; height: 60%; z-index: 2;
+    clip-path: inset(0 0 0 100%); transition: clip-path 1.5s var(--ease);
+    filter: drop-shadow(0 16px 26px rgba(0,0,0,.55)); }
+  .rug img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 3px; opacity: 0; transition: opacity .9s ease; }
+  .rug img.on { opacity: 1; }
+  .rug::before, .rug::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2.4%; z-index: 2;
+    background: repeating-linear-gradient(180deg, rgba(240,230,210,.95) 0 2px, rgba(200,185,160,.9) 2px 4px); }
+  .rug::before { left: -2.4%; } .rug::after { right: -2.4%; }
+  .roll { position: absolute; top: -3%; bottom: -3%; width: 7%; left: 100%; z-index: 3; border-radius: 40px;
+    background: linear-gradient(90deg, #5a3a1e, #c99a5a 45%, #fff1d0 55%, #a8743a 70%, #4a2e16);
+    box-shadow: 0 10px 22px rgba(0,0,0,.5); opacity: 0; transition: left 1.5s var(--ease), opacity .4s; }
+  .laid .rug { clip-path: inset(0 0 0 0); }
+  .rolling .roll { opacity: 1; }
+  .laid .roll { left: -7%; }
+  .rolled-out .roll { opacity: 0; }
+  .laid .ic.under { opacity: 0; transform: scale(.85); transition-delay: .5s; }
+  .stage .tag { position: absolute; z-index: 5; display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 14px;
+    font-weight: 800; font-size: 14px; background: rgba(20,14,10,.86); border: 1px solid var(--line); box-shadow: 0 16px 34px rgba(0,0,0,.5);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .stage .tag.show { opacity: 1; transform: none; }
+  .stage .t1 { bottom: -18px; right: 6%; }
+  .stage .t2 { top: -16px; left: 6%; }
+  .tick { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 900;
+    color: var(--ink); background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); box-shadow: 0 0 12px rgba(255,197,96,.55); }
 
-  /* sections */
-  section { padding: 64px 0 10px; }
-  h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 900; text-align: center; margin-bottom: 30px; }
-  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
-  .card h3 { font-size: 21px; font-weight: 900; margin-bottom: 6px; }
-  .card p { color: var(--soft); font-size: 16px; }
-  .card .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 12px; background: rgba(255,197,96,.14); border: 1px solid var(--line); }
-  .card .ico svg { width: 26px; height: 26px; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  /* ---------- sections ---------- */
+  section { padding: 90px 0 0; }
+  .head { text-align: center; max-width: 680px; margin: 0 auto 46px; }
+  .kicker { font-weight: 800; color: var(--gold); font-size: 15px; letter-spacing: .5px; }
+  h2 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 900; line-height: 1.35; margin-top: 6px; }
+  .head p { color: var(--soft); margin-top: 10px; font-size: 18px; }
 
-  .shots { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-  figure { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: #1a1410; }
-  figure img { display: block; width: 100%; height: auto; }
-  figcaption { padding: 10px 16px 12px; font-weight: 800; font-size: 16px; }
+  /* feature rows: picture + text, alternating */
+  .feature { display: grid; grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center; margin-bottom: 70px; }
+  .feature:nth-child(even) .pic { order: 2; }
+  .pic { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 34px 80px rgba(0,0,0,.6), 0 0 60px rgba(227,162,59,.12); }
+  .pic img { width: 100%; height: auto; transform: scale(1.04); transition: transform 1.6s var(--ease); }
+  .in .pic img { transform: scale(1); }
+  .num { font-family: "Reem Kufi", Cairo, sans-serif; font-size: 22px; color: var(--gold); opacity: .9; }
+  .feature h3 { font-size: clamp(24px, 2.6vw, 30px); font-weight: 900; line-height: 1.4; margin: 4px 0 10px; }
+  .feature p { color: var(--soft); font-size: 17.5px; }
+  .feature ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; }
+  .feature li { display: flex; align-items: center; gap: 10px; font-weight: 700; }
 
-  .checks { list-style: none; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .checks li { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 14px; font-weight: 800; font-size: 17px; background: linear-gradient(90deg, rgba(255,197,96,.14), rgba(255,255,255,.03)); border: 1px solid var(--line); }
-  .tick { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; color: var(--ink); background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); box-shadow: 0 0 14px rgba(255,197,96,.55); }
+  /* designs marquee */
+  .marquee { position: relative; overflow: hidden; padding: 6px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .track { display: flex; gap: 18px; width: max-content; animation: slide 70s linear infinite; }
+  .track.rev { animation-direction: reverse; animation-duration: 80s; margin-top: 18px; }
+  .track img { width: 230px; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 10px; box-shadow: 0 14px 30px rgba(0,0,0,.5); }
+  .marquee:hover .track { animation-play-state: paused; }
+  @keyframes slide { to { transform: translateX(50%); } }
 
-  /* install steps */
-  .steps { counter-reset: step; display: grid; gap: 16px; max-width: 820px; margin: 0 auto; }
-  .step { position: relative; padding: 20px 76px 20px 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
-  .step::before { counter-increment: step; content: counter(step); position: absolute; right: 20px; top: 18px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 20px; color: var(--ink); background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); }
-  .step h3 { font-size: 20px; font-weight: 900; }
-  .step p { color: var(--soft); }
-  kbd { font-family: "Segoe UI", Tahoma, sans-serif; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 6px; padding: 0 7px; font-size: .92em; color: var(--cream); }
+  /* security */
+  .checks { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .check { display: flex; gap: 14px; padding: 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+  .check .tick { width: 32px; height: 32px; font-size: 16px; margin-top: 2px; }
+  .check h3 { font-size: 19px; font-weight: 900; }
+  .check p { color: var(--soft); font-size: 15.5px; }
 
-  /* the SmartScreen dialog, drawn so people know it when they see it */
-  .smart { margin-top: 14px; direction: ltr; text-align: left; font-family: "Segoe UI", Tahoma, sans-serif; background: #0067b8; color: #fff; border-radius: 8px; padding: 18px 20px 14px; max-width: 440px; box-shadow: 0 16px 40px rgba(0,0,0,.5); }
-  .smart b { display: block; font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  /* install */
+  .steps { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); counter-reset: s; }
+  .step { position: relative; padding: 26px 22px 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+  .step::before { counter-increment: s; content: counter(s); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+    font-weight: 900; font-size: 20px; color: var(--ink); background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); margin-bottom: 12px; }
+  .step h3 { font-size: 19px; font-weight: 900; margin-bottom: 4px; }
+  .step p { color: var(--soft); font-size: 15.5px; }
+  .warn { margin-top: 26px; display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; padding: 28px; border-radius: 20px;
+    background: linear-gradient(120deg, rgba(0,103,184,.16), rgba(255,255,255,.03)); border: 1px solid rgba(76,194,255,.3); }
+  .warn h3 { font-size: 21px; font-weight: 900; margin-bottom: 6px; }
+  .warn p { color: var(--soft); }
+  .smart { direction: ltr; text-align: left; font-family: "Segoe UI", Tahoma, sans-serif; background: #0067b8; color: #fff; border-radius: 8px;
+    padding: 18px 20px 14px; width: 380px; max-width: 100%; box-shadow: 0 18px 44px rgba(0,0,0,.5); }
+  .smart b { display: block; font-size: 19px; font-weight: 600; margin-bottom: 6px; }
   .smart p { color: rgba(255,255,255,.9); font-size: 13px; line-height: 1.5; }
-  .smart .more { display: inline-block; margin-top: 8px; font-size: 13px; text-decoration: underline; padding: 2px 6px; border-radius: 4px; outline: 3px solid var(--gold); outline-offset: 2px; }
+  .smart .more { display: inline-block; margin-top: 8px; font-size: 13px; text-decoration: underline; padding: 2px 6px; border-radius: 4px; animation: pulse 2.4s ease-in-out infinite; }
   .smart .btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
   .smart .btns span { border: 1px solid rgba(255,255,255,.7); padding: 4px 16px; font-size: 13px; }
-  .smart .btns .run { outline: 3px solid var(--gold); outline-offset: 2px; }
-  .note { margin-top: 10px; font-size: 15px; color: var(--soft); }
+  .smart .btns .run { animation: pulse 2.4s ease-in-out infinite 1.2s; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,197,96,0); outline: 2px solid rgba(255,197,96,.4); } 50% { box-shadow: 0 0 0 6px rgba(255,197,96,.25); outline: 2px solid var(--gold); } }
 
-  .cta { text-align: center; padding: 70px 0 40px; }
-  footer { border-top: 1px solid rgba(255,255,255,.08); margin-top: 40px; padding: 28px 0 40px; text-align: center; color: var(--soft); font-size: 15px; }
-  footer .who { font-size: 18px; font-weight: 800; color: var(--cream); }
-  footer .small { margin-top: 10px; font-size: 13px; opacity: .8; }
+  /* faq */
+  .faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+  details { border-radius: 16px; background: var(--panel); border: 1px solid var(--line); padding: 0 22px; }
+  summary { cursor: pointer; list-style: none; padding: 18px 0; font-weight: 800; font-size: 17.5px; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--gold); font-size: 24px; line-height: 1; transition: transform .3s var(--ease); }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--soft); padding-bottom: 18px; }
 
-  @media (max-width: 560px) {
-    header { padding-top: 36px; }
-    .brand .kufi { font-size: 50px; }
-    .brand img { width: 52px; height: 52px; }
-    .download { font-size: 21px; padding: 14px 32px; }
-    .step { padding: 64px 18px 18px; }
-    .step::before { right: 18px; top: 14px; }
+  /* closing call */
+  .final { margin: 100px auto 0; text-align: center; padding: 60px 24px; border-radius: 28px; position: relative; overflow: hidden;
+    border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,197,96,.12), rgba(255,255,255,.02)); }
+  .final h2 { margin-bottom: 8px; }
+  .final p { color: var(--soft); margin-bottom: 28px; }
+
+  footer { margin-top: 90px; padding: 44px 0 50px; border-top: 1px solid rgba(255,255,255,.07); background: rgba(0,0,0,.25); text-align: center; }
+  .by { font-size: 15px; color: var(--soft); font-weight: 700; }
+  .office { font-size: clamp(24px, 3vw, 30px); font-weight: 900; margin-top: 2px; }
+  .addr { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--soft); font-weight: 700; }
+  .addr svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 2; }
+  .fine { margin-top: 24px; font-size: 13px; color: rgba(201,187,165,.75); }
+  .fine a { border-bottom: 1px solid rgba(255,255,255,.2); }
+
+  /* scroll reveal */
+  .rv { opacity: 0; transform: translateY(34px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .rv.in { opacity: 1; transform: none; }
+  .d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; } .d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; } .d5 { transition-delay: .4s; }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .hero { padding-top: 40px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+    .lead { margin: 0 auto; }
+    .actions, .meta { justify-content: center; }
+    .feature { grid-template-columns: 1fr; gap: 24px; margin-bottom: 56px; }
+    .feature:nth-child(even) .pic { order: 0; }
+    .warn { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  }
+  @media (max-width: 520px) {
+    .logo .kufi { font-size: 28px; }
+    .download { font-size: 19px; padding: 14px 30px; }
+    .track img { width: 170px; }
+    .stage .tag { font-size: 12px; padding: 7px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rv { opacity: 1; transform: none; }
   }
 </style>
 </head>
 <body>
+<div class="glow"></div>
 
-<header class="wrap">
-  <div class="brand">
-    <img src="img/icon.png" alt="">
-    <span class="kufi">سجادة</span>
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="img/icon.png" alt=""><span class="kufi">سجادة</span></a>
+    <nav>
+      <a href="#features">المزايا</a>
+      <a href="#designs">التصاميم</a>
+      <a href="#security">الأمان</a>
+      <a href="#install">التثبيت</a>
+      <a href="#faq">الأسئلة الشائعة</a>
+    </nav>
+    <a class="btn-sm" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">تحميل</a>
   </div>
-  <div>
-    <span class="for-win">
-      لنظام
-      <svg viewBox="0 0 16 16"><path fill="#4CC2FF" d="M0 0h7.5v7.5H0zM8.5 0H16v7.5H8.5zM0 8.5h7.5V16H0zM8.5 8.5H16V16H8.5z"/></svg>
-      <span class="en">Windows</span>
-    </span>
-  </div>
-  <h1>سطح المكتب مليان أيقونات؟ <span class="gold">لا تمسح ولا ملف</span>… بس افرشله زولية</h1>
-  <p class="lead">سجادة يرتّب سطح المكتب ويخفي ملفاتك عن عيون اللي يشوفون شاشتك، بدون ما ينقل أو يمسح أي شي.</p>
-
-  <a class="download" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>
-    تحميل مجاني
-  </a>
-  <div class="meta">
-    <span>الإصدار 1.0</span>
-    <span>87 ميگا</span>
-    <span><span class="en">Windows 10 / 11 (64-bit)</span></span>
-    <span>بدون إنترنت</span>
-  </div>
-
-  <div class="shot"><img src="img/hide.jpg" alt="سجادة على سطح المكتب، والأيقونات مخفية تحتها" width="1200" height="675"></div>
 </header>
 
-<main class="wrap">
+<main id="top">
 
-  <section>
-    <h2>شنو يسوي <span class="gold">سجادة</span>؟</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M9 3v6M15 15v6"/></svg></div>
-        <h3>تخفي الأيقونات</h3>
-        <p>تسحب أي أيقونة وتذبها على السجادة، فتختفي جوّاها. والملف يبقى بمكانه.</p>
+  <!-- hero -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow rv">
+          <svg viewBox="0 0 16 16"><path fill="#4CC2FF" d="M0 0h7.5v7.5H0zM8.5 0H16v7.5H8.5zM0 8.5h7.5V16H0zM8.5 8.5H16V16H8.5z"/></svg>
+          برنامج مجاني لنظام <span class="en">Windows</span>
+        </span>
+        <h1 class="rv d1">نظّم سطح مكتبك<br><span class="shine">وأخفِ ملفاتك عن الأعين</span></h1>
+        <p class="lead rv d2">يُخفي «سجادة» أيقونات سطح المكتب تحت سجادة أنيقة، فيبدو سطح المكتب مرتّبًا وتبقى ملفاتك بعيدة عن أنظار من يشاهد شاشتك، دون نقل أي ملف أو حذفه أو تعديله.</p>
+        <div class="actions rv d3">
+          <a class="download" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>
+            تحميل البرنامج مجانًا
+          </a>
+          <a class="link" href="#install">طريقة التثبيت</a>
+        </div>
+        <div class="meta rv d4">
+          <span>الإصدار 1.0</span>
+          <span>87 ميغابايت</span>
+          <span class="en">Windows 10 / 11 (64-bit)</span>
+          <span>لا يحتاج إلى إنترنت</span>
+        </div>
       </div>
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        <h3>مثل السجادة الحقيقية</h3>
-        <p>تحرّكها لمكان ثاني والأيقونات ما تتحرك وياها، وتكبّرها وتصغّرها من الطرف.</p>
+
+      <div class="stage rv d2" id="stage" aria-hidden="true">
+        <div class="screen">
+          <div class="icons">
+            <div class="ic folder under" style="right:27%;top:20%"><b></b><s></s></div>
+            <div class="ic doc under" style="right:37%;top:22%"><b></b><s></s></div>
+            <div class="ic xls under" style="right:47%;top:19%"><b></b><s></s></div>
+            <div class="ic pdf under" style="right:57%;top:23%"><b></b><s></s></div>
+            <div class="ic img under" style="right:67%;top:20%"><b></b><s></s></div>
+            <div class="ic doc under" style="right:30%;top:42%"><b></b><s></s></div>
+            <div class="ic folder under" style="right:41%;top:45%"><b></b><s></s></div>
+            <div class="ic pdf under" style="right:51%;top:41%"><b></b><s></s></div>
+            <div class="ic xls under" style="right:62%;top:44%"><b></b><s></s></div>
+            <div class="ic folder under" style="right:34%;top:60%"><b></b><s></s></div>
+            <div class="ic img under" style="right:46%;top:62%"><b></b><s></s></div>
+            <div class="ic doc under" style="right:58%;top:60%"><b></b><s></s></div>
+            <div class="ic folder" style="right:3%;top:4%"><b></b><s></s></div>
+            <div class="ic doc" style="right:3%;top:20%"><b></b><s></s></div>
+          </div>
+          <div class="rug" id="rug">
+            <img class="on" src="img/rugs/ishtar.jpg" alt="">
+            <img src="img/rugs/erbil.jpg" alt="">
+            <img src="img/rugs/kazak.jpg" alt="">
+            <img src="img/rugs/pebbles.jpg" alt="">
+            <img src="img/rugs/ahwar.jpg" alt="">
+            <img src="img/rugs/azilal.jpg" alt="">
+            <img src="img/rugs/samarra.jpg" alt="">
+            <img src="img/rugs/bauhaus.jpg" alt="">
+            <div class="roll"></div>
+          </div>
+          <div class="taskbar"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="tag t1" id="tag1"><span class="tick">✓</span>سطح مكتب مرتّب</div>
+        <div class="tag t2" id="tag2"><span class="tick">✓</span>ملفاتك في مكانها</div>
       </div>
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20V4h16v9"/><path d="M20 13l-7 7v-7z"/></svg></div>
-        <h3>تشيل الزاوية</h3>
-        <p>ترفع الزاوية وتشوف الأيقونات اللي تحتها، وتفتحها أو تسحبها لبرّه عادي.</p>
+    </div>
+  </div>
+
+  <!-- features -->
+  <section id="features">
+    <div class="wrap">
+      <div class="head rv">
+        <div class="kicker">كيف يعمل البرنامج</div>
+        <h2>يعمل تمامًا كالسجادة الحقيقية</h2>
+        <p>أدوات بسيطة وواضحة، تمنحك سطح مكتب منظّمًا خلال ثوانٍ.</p>
       </div>
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-        <h3>أكثر من 30 تصميم</h3>
-        <p>من بوابة عشتار وقلعة أربيل للكليم والصوف والجلد. وإذا تحب التغيير، سجادة جديدة كل يوم.</p>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/hide.jpg" alt="أيقونات مخفية تحت السجادة على سطح المكتب" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠١</div>
+          <h3>اسحب الأيقونة وأفلتها على السجادة</h3>
+          <p>تختفي الأيقونة تحت السجادة فورًا، بينما يبقى الملف في مكانه على سطح المكتب دون أي تغيير. كل ما يتغيّر هو موضع الأيقونة على الشاشة.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/real.jpg" alt="تحريك السجادة يكشف الأيقونات التي كانت تحتها" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠٢</div>
+          <h3>حرّكها وغيّر حجمها بحرّية</h3>
+          <p>عند تحريك السجادة تبقى الأيقونات في أماكنها، فتظهر الأيقونات التي كانت تحتها، كما يحدث مع السجادة الحقيقية تمامًا. ويمكنك تكبيرها أو تصغيرها بسحب أطرافها.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/corner.jpg" alt="رفع زاوية السجادة لرؤية الأيقونات" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠٣</div>
+          <h3>ارفع الزاوية للوصول إلى ملفاتك</h3>
+          <p>ارفع زاوية السجادة لتظهر الأيقونات المخفية تحتها، ثم افتح ما تحتاجه أو اسحبه إلى خارجها كالمعتاد.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/bringout.jpg" alt="قائمة البرنامج وخيار إخراج كل الأيقونات" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠٤</div>
+          <h3>أخرج جميع الأيقونات بنقرة واحدة</h3>
+          <p>من القائمة اختر «إخراج كل الأيقونات من تحت السجادة»، فتعود كل أيقونة إلى مكانها السابق.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/gallery.jpg" alt="معرض تصاميم السجاد داخل البرنامج" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠٥</div>
+          <h3>معرض تصاميم متكامل</h3>
+          <p>انقر بزر الفأرة الأيمن على السجادة ليظهر معرض يضم جميع التصاميم مقسّمة إلى أقسام، واختر التصميم الذي يناسبك بنقرة واحدة.</p>
+          <ul>
+            <li><span class="tick">✓</span>معالم عراقية وتصاميم كلاسيكية</li>
+            <li><span class="tick">✓</span>صوف وفرو، وتصاميم عصرية</li>
+            <li><span class="tick">✓</span>ألواح جلد مكتبية فاخرة</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="pic rv"><img src="img/daily.jpg" alt="خيار سجادة جديدة كل يوم" loading="lazy" width="1200" height="675"></div>
+        <div class="rv d1">
+          <div class="num">٠٦</div>
+          <h3>سجادة جديدة كل يوم</h3>
+          <p>فعّل خيار «عشوائي سجادة كل يوم»، وستستقبلك سجادة بتصميم مختلف في كل يوم تشغّل فيه حاسوبك.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>شوف بعينك</h2>
-    <div class="shots">
-      <figure><img src="img/real.jpg" alt="تحريك السجادة يكشف الأيقونات اللي تحتها" loading="lazy" width="1200" height="675"><figcaption>تحرّك السجادة، والأيقونات تبقى بمكانها</figcaption></figure>
-      <figure><img src="img/corner.jpg" alt="رفع زاوية السجادة لرؤية الأيقونات" loading="lazy" width="1200" height="675"><figcaption>تشيل الزاوية وتشوف اللي تحتها</figcaption></figure>
-      <figure><img src="img/gallery.jpg" alt="معرض التصاميم في قائمة البرنامج" loading="lazy" width="1200" height="675"><figcaption>معرض التصاميم: click واحد وتتبدّل</figcaption></figure>
+  <!-- designs -->
+  <section id="designs">
+    <div class="wrap">
+      <div class="head rv">
+        <div class="kicker">التصاميم</div>
+        <h2>أكثر من ٣٠ تصميمًا</h2>
+        <p>من بوابة عشتار وقلعة أربيل، إلى الكليم والصوف والجلد الفاخر.</p>
+      </div>
+    </div>
+    <div class="marquee rv" id="marquee"></div>
+  </section>
+
+  <!-- security -->
+  <section id="security">
+    <div class="wrap">
+      <div class="head rv">
+        <div class="kicker">الأمان</div>
+        <h2>ملفاتك في أمان تام</h2>
+        <p>صُمّم البرنامج ليغطي الأيقونات فقط، دون أن يقترب من ملفاتك.</p>
+      </div>
+      <div class="checks">
+        <div class="check rv"><span class="tick">✓</span><div><h3>لا ينقل ملفاتك</h3><p>تبقى جميع الملفات في مكانها على سطح المكتب.</p></div></div>
+        <div class="check rv d1"><span class="tick">✓</span><div><h3>لا يحذف ولا يعدّل</h3><p>لا يمسّ البرنامج محتوى أي ملف إطلاقًا.</p></div></div>
+        <div class="check rv d2"><span class="tick">✓</span><div><h3>يتغيّر موضع الأيقونة فقط</h3><p>كل ما يتغيّر هو مكان الأيقونة على الشاشة.</p></div></div>
+        <div class="check rv"><span class="tick">✓</span><div><h3>لا يحتاج إلى إنترنت</h3><p>يعمل بالكامل على جهازك دون أي اتصال.</p></div></div>
+        <div class="check rv d1"><span class="tick">✓</span><div><h3>دون صلاحيات المسؤول</h3><p>يُثبَّت ويعمل بصلاحيات المستخدم العادية.</p></div></div>
+        <div class="check rv d2"><span class="tick">✓</span><div><h3>لا يضيع شيء عند الإغلاق</h3><p>إذا أغلقت البرنامج تظهر الأيقونات في أماكنها، وتعود مغطّاة عند تشغيله مجددًا.</p></div></div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>وأهم شي، <span class="gold">الأمان</span></h2>
-    <ul class="checks">
-      <li><span class="tick">✓</span>ما ينقل ملفاتك</li>
-      <li><span class="tick">✓</span>ما يمسحها ولا يغيّر بيها شي</li>
-      <li><span class="tick">✓</span>يتغيّر بس مكان الأيقونة على الشاشة</li>
-      <li><span class="tick">✓</span>ما يحتاج إنترنت</li>
-      <li><span class="tick">✓</span>ما يطلب صلاحيات مسؤول</li>
-      <li><span class="tick">✓</span>إذا سدّيته، كل الأيقونات ترجع تبين</li>
-    </ul>
-  </section>
-
+  <!-- install -->
   <section id="install">
-    <h2>شلون تنصّبه</h2>
-    <div class="steps">
-      <div class="step">
-        <h3>حمّل الملف</h3>
-        <p>اضغط زر <b class="gold">تحميل مجاني</b>. إذا المتصفح كال إن الملف "غير شائع"، اختار <b>الاحتفاظ</b> (Keep).</p>
+    <div class="wrap">
+      <div class="head rv">
+        <div class="kicker">التثبيت</div>
+        <h2>ابدأ في أقل من دقيقة</h2>
       </div>
-      <div class="step">
-        <h3>شغّل <span class="en">Sajjada-Setup.exe</span></h3>
-        <p>لأن البرنامج جديد، الويندوز ممكن يطلع هاي الرسالة الزرقاء. هذا طبيعي لأي برنامج جديد مو مشهور. اضغط <b class="gold">More info</b> وبعدها <b class="gold">Run anyway</b>:</p>
+      <div class="steps">
+        <div class="step rv"><h3>حمّل البرنامج</h3><p>اضغط زر «تحميل البرنامج مجانًا». إذا نبّهك المتصفح إلى أن الملف غير شائع، اختر «الاحتفاظ».</p></div>
+        <div class="step rv d1"><h3>شغّل ملف التثبيت</h3><p>افتح الملف <span class="en">Sajjada-Setup.exe</span> واتبع الخطوات حتى ينتهي التثبيت.</p></div>
+        <div class="step rv d2"><h3>ألغِ الترتيب التلقائي</h3><p>انقر بزر الفأرة الأيمن على سطح المكتب، ثم «عرض»، وألغِ تحديد «ترتيب الأيقونات تلقائيًا».</p></div>
+        <div class="step rv d3"><h3>اختر سجادتك</h3><p>تظهر السجادة على سطح المكتب. انقر عليها بالزر الأيمن لاختيار التصميم الذي تفضّله.</p></div>
+      </div>
+      <div class="warn rv">
+        <div>
+          <h3>هل ظهرت لك رسالة من Windows؟</h3>
+          <p>تُظهر Windows هذه الرسالة عند تشغيل أي برنامج جديد غير منتشر بعد، وهذا أمر طبيعي ولا يعني وجود خطر. اضغط <b class="gold">More info</b> ثم <b class="gold">Run anyway</b> لمتابعة التثبيت.</p>
+        </div>
         <div class="smart">
           <b>Windows protected your PC</b>
           <p>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</p>
@@ -223,34 +462,106 @@
           <div class="btns"><span class="run">Run anyway</span><span>Don't run</span></div>
         </div>
       </div>
-      <div class="step">
-        <h3>شيل الترتيب التلقائي</h3>
-        <p>click يمين على سطح المكتب، وبعدها <b>عرض</b>، وشيل العلامة من <b>ترتيب الأيقونات تلقائياً</b>. هيچ تكدر تحط الأيقونات تحت السجادة.</p>
-      </div>
-      <div class="step">
-        <h3>افرشها</h3>
-        <p>السجادة تطلع على سطح المكتب. click يمين عليها حتى تختار التصميم اللي يعجبك.</p>
-      </div>
     </div>
   </section>
 
-  <div class="cta">
-    <a class="download" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>
-      تحميل مجاني
-    </a>
-  </div>
+  <!-- faq -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="head rv">
+        <div class="kicker">الأسئلة الشائعة</div>
+        <h2>إجابات سريعة</h2>
+      </div>
+      <div class="faq">
+        <details class="rv"><summary>هل البرنامج مجاني؟</summary><p>نعم، البرنامج مجاني بالكامل، دون إعلانات أو اشتراكات.</p></details>
+        <details class="rv"><summary>هل يمكن أن يحذف البرنامج ملفاتي؟</summary><p>لا. البرنامج لا ينقل أي ملف ولا يحذفه ولا يعدّله، بل يغيّر موضع الأيقونة على الشاشة فقط.</p></details>
+        <details class="rv"><summary>ماذا يحدث إذا أغلقت البرنامج؟</summary><p>تظهر جميع الأيقونات في أماكنها على سطح المكتب، ولا يضيع أي شيء. وعند تشغيله مجددًا تعود مغطّاة كما كانت.</p></details>
+        <details class="rv"><summary>لماذا تظهر رسالة «Windows protected your PC»؟</summary><p>تظهر هذه الرسالة لأي برنامج جديد لم ينتشر بعد على نطاق واسع. اضغط More info ثم Run anyway للمتابعة.</p></details>
+        <details class="rv"><summary>هل يحتاج البرنامج إلى اتصال بالإنترنت؟</summary><p>لا، يعمل البرنامج بالكامل دون إنترنت، ولا يرسل أي بيانات.</p></details>
+        <details class="rv"><summary>ما أنظمة التشغيل المدعومة؟</summary><p>يعمل البرنامج على <span class="en">Windows 10</span> و <span class="en">Windows 11</span> بنظام 64 بت.</p></details>
+      </div>
+
+      <div class="final rv">
+        <h2>سطح مكتب منظّم، وملفات في مكانها</h2>
+        <p>حمّل «سجادة» الآن مجانًا.</p>
+        <a class="download" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>
+          تحميل البرنامج مجانًا
+        </a>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <div class="who">مع تحيات المهندس <span class="en gold">Soran</span> · مكتب <span class="gold">المصدر</span> للحاسبات</div>
-    <div class="small">
-      سجادة مبني على برنامج <a href="https://github.com/ibrahimsancar/kilim" class="en">Kilim</a> للمطوّر <span class="en">İbrahim Can Sancar</span> (رخصة <span class="en">MIT</span>) ·
-      <a href="https://github.com/Soran-abd/sajjada">الكود المصدري</a>
+    <div class="by">من تطوير</div>
+    <div class="office">مكتب <span class="gold">المصدر</span> للحاسبات</div>
+    <div class="addr">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      كركوك، شارع الجمهورية، مجمع فريا
+    </div>
+    <div class="fine">
+      مبني على برنامج <a class="en" href="https://github.com/ibrahimsancar/kilim">Kilim</a> للمطوّر <span class="en">İbrahim Can Sancar</span> برخصة <span class="en">MIT</span> ·
+      <a href="https://github.com/Soran-abd/sajjada">الشيفرة المصدرية</a>
     </div>
   </div>
 </footer>
 
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: 0.14 });
+  document.querySelectorAll(".rv, .feature").forEach((el) => io.observe(el));
+
+  // designs marquee: two rows of every rug, each row doubled so it loops seamlessly
+  const rugs = ["ishtar","erbil","kirkuk","hadi","hadba","samarra","ahwar","rafidain","kilim","kashi","kurdi","kazak","gabbeh","warda","ahmar",
+    "beniourain","azilal","sheep","flock","cowhide","pebbles","bauhaus","brushstroke","marble","baghdad","bloom","sunrise","pier","contours",
+    "cognac","executive","arabesque","almasdar"];
+  const half = Math.ceil(rugs.length / 2);
+  const row = (list, rev) => {
+    const t = document.createElement("div");
+    t.className = "track" + (rev ? " rev" : "");
+    for (const id of [...list, ...list]) {
+      const img = document.createElement("img");
+      img.src = "img/rugs/" + id + ".jpg"; img.alt = ""; img.loading = "lazy";
+      t.appendChild(img);
+    }
+    return t;
+  };
+  const mq = document.getElementById("marquee");
+  mq.appendChild(row(rugs.slice(0, half)));
+  mq.appendChild(row(rugs.slice(half), true));
+
+  // the hero: the rug unrolls over the icons, changes design a few times, then rolls away
+  const stage = document.getElementById("stage");
+  const layers = [...document.querySelectorAll("#rug img")];
+  const tags = [document.getElementById("tag1"), document.getElementById("tag2")];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let current = 0;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const show = (i) => { layers.forEach((l, k) => l.classList.toggle("on", k === i)); current = i; };
+  async function loop() {
+    if (reduce) { stage.classList.add("laid", "rolled-out"); tags.forEach((t) => t.classList.add("show")); return; }
+    for (;;) {
+      await wait(1300);
+      stage.classList.add("rolling", "laid");
+      await wait(1500);
+      stage.classList.add("rolled-out");
+      tags[0].classList.add("show");
+      await wait(500);
+      tags[1].classList.add("show");
+      for (let n = 0; n < 3; n++) { await wait(2300); show((current + 1) % layers.length); }
+      await wait(2300);
+      tags.forEach((t) => t.classList.remove("show"));
+      stage.classList.remove("rolled-out", "laid");
+      await wait(1600);
+      stage.classList.remove("rolling");
+      show((current + 1) % layers.length);
+    }
+  }
+  loop();
+</script>
 </body>
 </html>
