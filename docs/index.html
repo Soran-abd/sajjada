@@ -67,8 +67,6 @@
   nav { display: flex; gap: 26px; font-weight: 700; font-size: 15px; color: var(--soft); }
   nav a { transition: color .2s; }
   nav a:hover { color: var(--gold); }
-  .btn-sm { padding: 8px 20px; border-radius: 999px; font-weight: 800; font-size: 15px; color: var(--ink);
-    background: linear-gradient(180deg, var(--gold-pale), var(--gold-deep)); white-space: nowrap; }
 
   /* ---------- hero ---------- */
   .hero { padding: 70px 0 40px; }
@@ -98,46 +96,12 @@
   .meta span { display: inline-flex; align-items: center; gap: 6px; }
   .meta span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
 
-  /* the animated desktop */
-  .stage { position: relative; perspective: 1600px; }
-  .screen { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden;
-    background: radial-gradient(120% 90% at 70% 20%, #6b7a96, #4b5670 55%, #3a4257);
+  /* the real recording of the rug being folded */
+  .stage { position: relative; }
+  .screen { position: relative; aspect-ratio: 8 / 5; border-radius: 18px; overflow: hidden; background: #4b5670;
     border: 1px solid rgba(255,220,160,.28);
     box-shadow: 0 50px 100px rgba(0,0,0,.75), 0 0 90px rgba(227,162,59,.22); }
-  .screen::before { content: ""; position: absolute; inset: 0; background:
-      radial-gradient(60% 50% at 30% 30%, rgba(255,255,255,.10), transparent 70%); pointer-events: none; }
-  .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 7.5%; background: rgba(28,30,38,.82);
-    display: flex; justify-content: center; align-items: center; gap: 1.6%; }
-  .taskbar i { width: 3.2%; aspect-ratio: 1; border-radius: 22%; background: rgba(255,255,255,.18); }
-  .taskbar i:first-child { background: linear-gradient(135deg, #4cc2ff 0 46%, transparent 46% 54%, #4cc2ff 54%); }
-  .icons { position: absolute; inset: 0; }
-  .ic { position: absolute; width: 7.2%; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    transition: opacity .5s var(--ease), transform .5s var(--ease); }
-  .ic b { width: 70%; aspect-ratio: 1; border-radius: 12%; position: relative; box-shadow: 0 3px 8px rgba(0,0,0,.35); }
-  .ic s { width: 92%; height: 5px; border-radius: 3px; background: rgba(255,255,255,.55); text-decoration: none; }
-  .ic.folder b { background: linear-gradient(180deg, #ffd66b, #f0b429); border-radius: 8% 8% 12% 12%; }
-  .ic.folder b::before { content: ""; position: absolute; top: -10%; right: 8%; width: 45%; height: 18%; background: #f0b429; border-radius: 3px 3px 0 0; }
-  .ic.doc b { background: linear-gradient(180deg, #fff, #e8eef8); }
-  .ic.doc b::after { content: ""; position: absolute; inset: 22% 18% auto 18%; height: 34%; background: repeating-linear-gradient(180deg, #2b6fd6 0 2px, transparent 2px 6px); }
-  .ic.xls b { background: linear-gradient(180deg, #2fa865, #1e7e4a); }
-  .ic.pdf b { background: linear-gradient(180deg, #ff6b5b, #d63b2f); }
-  .ic.img b { background: linear-gradient(160deg, #8fd3ff, #4a8fd9 60%, #2f6a3a 60%); }
-  .rug { position: absolute; left: 21%; top: 15%; width: 58%; height: 60%; z-index: 2;
-    clip-path: inset(0 0 0 100%); transition: clip-path 1.5s var(--ease);
-    filter: drop-shadow(0 16px 26px rgba(0,0,0,.55)); }
-  .rug img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 3px; opacity: 0; transition: opacity .9s ease; }
-  .rug img.on { opacity: 1; }
-  .rug::before, .rug::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2.4%; z-index: 2;
-    background: repeating-linear-gradient(180deg, rgba(240,230,210,.95) 0 2px, rgba(200,185,160,.9) 2px 4px); }
-  .rug::before { left: -2.4%; } .rug::after { right: -2.4%; }
-  .roll { position: absolute; top: -3%; bottom: -3%; width: 7%; left: 100%; z-index: 3; border-radius: 40px;
-    background: linear-gradient(90deg, #5a3a1e, #c99a5a 45%, #fff1d0 55%, #a8743a 70%, #4a2e16);
-    box-shadow: 0 10px 22px rgba(0,0,0,.5); opacity: 0; transition: left 1.5s var(--ease), opacity .4s; }
-  .laid .rug { clip-path: inset(0 0 0 0); }
-  .rolling .roll { opacity: 1; }
-  .laid .roll { left: -7%; }
-  .rolled-out .roll { opacity: 0; }
-  .laid .ic.under { opacity: 0; transform: scale(.85); transition-delay: .5s; }
+  .screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .stage .tag { position: absolute; z-index: 5; display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 14px;
     font-weight: 800; font-size: 14px; background: rgba(20,14,10,.86); border: 1px solid var(--line); box-shadow: 0 16px 34px rgba(0,0,0,.5);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
@@ -214,11 +178,6 @@
   details[open] summary::after { transform: rotate(45deg); }
   details p { color: var(--soft); padding-bottom: 18px; }
 
-  /* closing call */
-  .final { margin: 100px auto 0; text-align: center; padding: 60px 24px; border-radius: 28px; position: relative; overflow: hidden;
-    border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,197,96,.12), rgba(255,255,255,.02)); }
-  .final h2 { margin-bottom: 8px; }
-  .final p { color: var(--soft); margin-bottom: 28px; }
 
   footer { margin-top: 90px; padding: 44px 0 50px; border-top: 1px solid rgba(255,255,255,.07); background: rgba(0,0,0,.25); text-align: center; }
   .by { font-size: 15px; color: var(--soft); font-weight: 700; }
@@ -268,7 +227,6 @@
       <a href="#install">التثبيت</a>
       <a href="#faq">الأسئلة الشائعة</a>
     </nav>
-    <a class="btn-sm" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">تحميل</a>
   </div>
 </header>
 
@@ -299,36 +257,9 @@
         </div>
       </div>
 
-      <div class="stage rv d2" id="stage" aria-hidden="true">
+      <div class="stage rv d2" id="stage">
         <div class="screen">
-          <div class="icons">
-            <div class="ic folder under" style="right:27%;top:20%"><b></b><s></s></div>
-            <div class="ic doc under" style="right:37%;top:22%"><b></b><s></s></div>
-            <div class="ic xls under" style="right:47%;top:19%"><b></b><s></s></div>
-            <div class="ic pdf under" style="right:57%;top:23%"><b></b><s></s></div>
-            <div class="ic img under" style="right:67%;top:20%"><b></b><s></s></div>
-            <div class="ic doc under" style="right:30%;top:42%"><b></b><s></s></div>
-            <div class="ic folder under" style="right:41%;top:45%"><b></b><s></s></div>
-            <div class="ic pdf under" style="right:51%;top:41%"><b></b><s></s></div>
-            <div class="ic xls under" style="right:62%;top:44%"><b></b><s></s></div>
-            <div class="ic folder under" style="right:34%;top:60%"><b></b><s></s></div>
-            <div class="ic img under" style="right:46%;top:62%"><b></b><s></s></div>
-            <div class="ic doc under" style="right:58%;top:60%"><b></b><s></s></div>
-            <div class="ic folder" style="right:3%;top:4%"><b></b><s></s></div>
-            <div class="ic doc" style="right:3%;top:20%"><b></b><s></s></div>
-          </div>
-          <div class="rug" id="rug">
-            <img class="on" src="img/rugs/ishtar.jpg" alt="">
-            <img src="img/rugs/erbil.jpg" alt="">
-            <img src="img/rugs/kazak.jpg" alt="">
-            <img src="img/rugs/pebbles.jpg" alt="">
-            <img src="img/rugs/ahwar.jpg" alt="">
-            <img src="img/rugs/azilal.jpg" alt="">
-            <img src="img/rugs/samarra.jpg" alt="">
-            <img src="img/rugs/bauhaus.jpg" alt="">
-            <div class="roll"></div>
-          </div>
-          <div class="taskbar"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <video src="img/fold.mp4" poster="img/fold-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="رفع زاوية السجادة لرؤية الأيقونات المخفية تحتها"></video>
         </div>
         <div class="tag t1" id="tag1"><span class="tick">✓</span>سطح مكتب مرتّب</div>
         <div class="tag t2" id="tag2"><span class="tick">✓</span>ملفاتك في مكانها</div>
@@ -481,14 +412,6 @@
         <details class="rv"><summary>ما أنظمة التشغيل المدعومة؟</summary><p>يعمل البرنامج على <span class="en">Windows 10</span> و <span class="en">Windows 11</span> بنظام 64 بت.</p></details>
       </div>
 
-      <div class="final rv">
-        <h2>سطح مكتب منظّم، وملفات في مكانها</h2>
-        <p>حمّل «سجادة» الآن مجانًا.</p>
-        <a class="download" href="https://github.com/Soran-abd/sajjada/releases/latest/download/Sajjada-Setup.exe">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>
-          تحميل البرنامج مجانًا
-        </a>
-      </div>
     </div>
   </section>
 </main>
@@ -534,34 +457,10 @@
   mq.appendChild(row(rugs.slice(0, half)));
   mq.appendChild(row(rugs.slice(half), true));
 
-  // the hero: the rug unrolls over the icons, changes design a few times, then rolls away
-  const stage = document.getElementById("stage");
-  const layers = [...document.querySelectorAll("#rug img")];
+  // the two labels on the video appear one after the other
   const tags = [document.getElementById("tag1"), document.getElementById("tag2")];
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let current = 0;
-  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-  const show = (i) => { layers.forEach((l, k) => l.classList.toggle("on", k === i)); current = i; };
-  async function loop() {
-    if (reduce) { stage.classList.add("laid", "rolled-out"); tags.forEach((t) => t.classList.add("show")); return; }
-    for (;;) {
-      await wait(1300);
-      stage.classList.add("rolling", "laid");
-      await wait(1500);
-      stage.classList.add("rolled-out");
-      tags[0].classList.add("show");
-      await wait(500);
-      tags[1].classList.add("show");
-      for (let n = 0; n < 3; n++) { await wait(2300); show((current + 1) % layers.length); }
-      await wait(2300);
-      tags.forEach((t) => t.classList.remove("show"));
-      stage.classList.remove("rolled-out", "laid");
-      await wait(1600);
-      stage.classList.remove("rolling");
-      show((current + 1) % layers.length);
-    }
-  }
-  loop();
+  setTimeout(() => tags[0].classList.add("show"), 1400);
+  setTimeout(() => tags[1].classList.add("show"), 1900);
 </script>
 </body>
 </html>
