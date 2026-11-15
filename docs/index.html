@@ -140,6 +140,7 @@
   .check { display: flex; gap: 14px; padding: 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
   .check .tick { width: 32px; height: 32px; font-size: 16px; margin-top: 2px; }
   .check h3 { font-size: 19px; font-weight: 900; }
+  .check.wide { grid-column: 1 / -1; }
   .check p { color: var(--soft); font-size: 15.5px; }
 
   /* install */
@@ -243,7 +244,7 @@
           <a class="link" href="#install">طريقة التثبيت</a>
         </div>
         <div class="meta rv d4">
-          <span>الإصدار 1.0</span>
+          <span>الإصدار 1.0.1</span>
           <span>87 ميغابايت</span>
           <span class="en">Windows 10 / 11 (64-bit)</span>
           <span>لا يحتاج إلى إنترنت</span>
@@ -355,6 +356,8 @@
         <div class="check rv"><span class="tick">✓</span><div><h3>لا يحتاج إلى إنترنت</h3><p>يعمل بالكامل على جهازك دون أي اتصال.</p></div></div>
         <div class="check rv d1"><span class="tick">✓</span><div><h3>دون صلاحيات المسؤول</h3><p>يُثبَّت ويعمل بصلاحيات المستخدم العادية.</p></div></div>
         <div class="check rv d2"><span class="tick">✓</span><div><h3>لا يضيع شيء عند الإغلاق</h3><p>إذا أغلقت البرنامج تظهر الأيقونات في أماكنها، وتعود مغطّاة عند تشغيله مجددًا.</p></div></div>
+        <!-- The seventh card spans the whole row, so it reads as the closing word, not a stray one. -->
+        <div class="check wide rv"><span class="tick">✓</span><div><h3>كود مفتوح للجميع</h3><p>شيفرة البرنامج منشورة على <span class="en">GitHub</span>، ويستطيع أي مبرمج الاطلاع عليها. <a class="link" href="https://github.com/Soran-abd/sajjada">تصفّح الكود ←</a></p></div></div>
       </div>
     </div>
   </section>
@@ -416,6 +419,8 @@
       كركوك، شارع الجمهورية، مجمع فريا
     </div>
     <div class="fine">
+      © 2026 المصدر للحاسبات ·
+      <a href="https://github.com/Soran-abd/sajjada/blob/main/installer/license-ar.txt">اتفاقية الترخيص</a> ·
       مبني على برنامج <a class="en" href="https://github.com/ibrahimsancar/kilim">Kilim</a> للمطوّر <span class="en">İbrahim Can Sancar</span> برخصة <span class="en">MIT</span> ·
       <a href="https://github.com/Soran-abd/sajjada">الشيفرة المصدرية</a>
     </div>
