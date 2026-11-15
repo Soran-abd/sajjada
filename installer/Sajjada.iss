@@ -5,7 +5,7 @@
 
 #define AppName "سجادة"
 #define AppExe "Sajjada.exe"
-#define AppVersion "1.0"
+#define AppVersion "1.0.1"
 
 [Setup]
 ; Fixed ID so later versions install over this one instead of beside it.
@@ -37,6 +37,8 @@ WizardSmallImageFile=wizard-small-55.bmp,wizard-small-83.bmp,wizard-small-110.bm
 UninstallDisplayIcon={app}\{#AppExe}
 UninstallDisplayName={#AppName} (Sajjada)
 WizardStyle=modern
+; The license agreement (Arabic, with the MIT text), accepted before anything is installed.
+LicenseFile=license-ar.txt
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
@@ -44,7 +46,8 @@ MinVersion=10.0
 Compression=lzma2/max
 SolidCompression=yes
 OutputDir=Output
-OutputBaseFilename=Sajjada-Setup-{#AppVersion}
+; The download page links to this exact name, so it stays the same for every version.
+OutputBaseFilename=Sajjada-Setup
 
 [Languages]
 Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"

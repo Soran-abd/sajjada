@@ -1,0 +1,33 @@
+﻿اتفاقية ترخيص برنامج «سجادة» — الإصدار 1.0
+
+بتثبيت البرنامج والنقر على «أوافق»، فإنك تقبل الشروط التالية:
+
+1. البرنامج مجاني
+«سجادة» برنامج مجاني من المصدر للحاسبات © 2026، ويحق لك استخدامه على أي عدد من الأجهزة. ولا يُسمح ببيع ملف التنصيب الرسمي أو نشره في مواقع أخرى دون إذن خطي منا.
+
+2. الكود مفتوح
+كود البرنامج متاح للجميع برخصة MIT على:
+https://github.com/Soran-abd/sajjada
+أما اسم «سجادة» وشعار «المصدر للحاسبات» فخاصان بنا، ولا تشملهما هذه الرخصة.
+
+3. الخصوصية
+البرنامج لا يتصل بالإنترنت، ولا يجمع أي بيانات، ولا يحذف ملفاتك ولا ينقلها. هو يغطي الأيقونات فقط، وتظهر كلها عند إغلاقه أو عند اختيار «إخراج كل الأيقونات من تحت السجادة».
+
+4. إخلاء المسؤولية
+يُقدَّم البرنامج «كما هو» دون أي ضمان. ولا يتحمل المصدر للحاسبات، ولا أصحابها، ولا مطوّرو البرنامج، أي مسؤولية عن أي ضرر مباشر أو غير مباشر من أي نوع، سواء نتج عن استخدام البرنامج أو سوء استخدامه أو قلة خبرة المستخدم. وأنت تستخدم البرنامج على مسؤوليتك الكاملة.
+
+5. شكر
+البرنامج مبني على برنامج Kilim للمطوّر İbrahim Can Sancar، برخصة MIT المرفقة أدناه.
+
+────────────────────────
+
+MIT License
+
+Copyright (c) 2026 İbrahim Can Sancar
+Copyright (c) 2026 Al-Masdar Computers (المصدر للحاسبات)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
